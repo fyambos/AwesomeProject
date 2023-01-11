@@ -1,5 +1,4 @@
 import React from 'react';
-import type {Node} from 'react';
 import {
   Text,
   View,
@@ -7,12 +6,16 @@ import {
 } from 'react-native';
 
 import style from './style/global';
+import { useState } from 'react';
+
 //function App () { } mais const App est plus facile a exporter
 const App = () => {
-  let clickCount=0;
+  //useState pour raffraichir l'affichage
+  const [count, setCount]= useState(0);
+
   const onPressHandler = () => {
-    clickCount+=1;
-    console.log("cliqué sur le bouton, "+clickCount+" fois!");
+    setCount(count+1);
+    console.log("cliqué sur le bouton, "+count+" fois!");
   }
 
   return (<>
@@ -24,6 +27,9 @@ const App = () => {
               <Text>Cliquez Ici</Text>
           </TouchableOpacity>
   </View>
+  <View>
+          <Text style={style.text}>{count}</Text>
+	</View>
   </>);
 };
 
