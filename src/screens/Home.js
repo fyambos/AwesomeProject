@@ -1,12 +1,16 @@
 import React from 'react'
-import {Text, View} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 
-const Home = () => {
+const Home = ({navigation}) => {
+    const onPressHandler = () => {
+        navigation.navigate('Chuck');
+    }
     return (
         <View>
-            <Text>
-                Home Page
-            </Text>
+            <Text>Chuck Page</Text>
+            <TouchableOpacity onPress={onPressHandler}>
+                <Text>Go To Chuck Page</Text>
+            </TouchableOpacity>
         </View>
     )
 }
