@@ -8,12 +8,12 @@ const Chuck = ({navigation}) => {
 
     const [fact, setFact] = useState(null)
 
-    getChuckFact = async () => {
+    const getChuckFact = async () => {
         const res = await fetch("https://api.chucknorris.io/jokes/random");
         const chuckFact = await res.json();
         console.log(res);
         console.log(chuckFact);
-        setFact(chuckFact.value);
+        setFact(chuckFact);
     }
 
     useEffect(()=> {
@@ -27,7 +27,7 @@ const Chuck = ({navigation}) => {
             <TouchableOpacity onPress={onPressHandler}>
                 <Text>Go To Home Page</Text>
             </TouchableOpacity>
-            <Text>{fact}</Text>
+            <Text>{fact ? fact.value : "Pas de Fact"}</Text>
         </View>
     )
 }
