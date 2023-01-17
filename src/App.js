@@ -1,36 +1,24 @@
-import React from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import style from './style/global';
-import { useState } from 'react';
+import HomeScreen from './screens/Home';
+import ChuckScreen from './screens/Chuck';
 
-//function App () { } mais const App est plus facile a exporter
-const App = () => {
-  //useState pour raffraichir l'affichage
-  const [count, setCount]= useState(0);
+// Creating a native stack navigator​
+//      npm install @react-navigation/native-stack
+//      https://reactnavigation.org/docs/hello-react-navigation#creating-a-native-stack-navigator
 
-  const onPressHandler = () => {
-    setCount(count+1);
-    console.log("cliqué sur le bouton, "+count+" fois!");
+const Stack = createNativeStackNavigator();
+
+function App() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Chuck" component={ChuckScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   }
-
-  return (<>
-	<View>
-          <Text style={style.text}>Hello World!</Text>
-	</View>
-	<View>
-          <TouchableOpacity onPress={onPressHandler}>
-              <Text>Cliquez Ici</Text>
-          </TouchableOpacity>
-  </View>
-  <View>
-          <Text style={style.text}>{count}</Text>
-	</View>
-  </>);
-};
-
-export default App;
+  
+  export default App;   
