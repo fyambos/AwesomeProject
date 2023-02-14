@@ -1,23 +1,38 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 
+import {getSessions} from '../services/sessions';
+
 const Home = ({navigation}) => {
-    const onPressHandler = () => {
-        navigation.navigate('Chuck');
+    const navLogin = () => {
+        navigation.navigate('Login');
     }
-    const onPressHandlerTwo = () => {
-            navigation.navigate('Login');
-    }
-    return (
+    const [sessions,setSession]=useState([]);
+
+    useEffect(()=>{
+        const getData = async () => {
+            const res = await getSessions();
+            console.log("Home.js useEffect() res:",res);
+            if (typeof res !== 'undefined')
+                setSession(res);
+        }
+
+        getData();
+    },[])
+
+    return <View>
+        <Text>Liste des sessions</Text>
         <View>
-            <Text>Chuck Page</Text>
-            <TouchableOpacity onPress={onPressHandler}>
-                <Text>Go To Chuck Page</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onPressHandlerTwo}>
-                            <Text>Go To Login Page</Text>
-            </TouchableOpacity>
+            {sessions.map((session) => <Text key={session._id}>
+                        {session.matiere}
+                    </Text>
+            )}
+        <TouchableOpacity onPress={navLogin}>
+            <Text>Login</Text>
+        </TouchableOpacity>
         </View>
-    )
+
+
+    </View>
 }
-export default Home
+export default Home;

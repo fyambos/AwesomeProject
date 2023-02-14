@@ -9,11 +9,17 @@ const Chuck = ({navigation}) => {
     const [fact, setFact] = useState(null)
 
     const getChuckFact = async () => {
-        const res = await fetch("https://api.chucknorris.io/jokes/random");
-        const chuckFact = await res.json();
-        console.log(res);
-        console.log(chuckFact);
-        setFact(chuckFact);
+        try{
+               const res = await fetch("https://api.chucknorris.io/jokes/random");
+               const chuckFact = await res.json();
+               console.log(res);
+               console.log(chuckFact);
+               setFact(chuckFact);
+        }
+        catch(error) {
+            console.log(error);
+        }
+
     }
 
     useEffect(()=> {
