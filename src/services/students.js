@@ -25,3 +25,13 @@ export const register = async (data) => {
         return error.response;
     }
 }
+
+export const getStudent = async (studentId) => {
+    try{
+        const res = await axios.get(`http://192.168.0.50:4500/students/${studentId}`);
+        return res.data;
+    }
+    catch(error) {
+        return error.response;
+    }
+}

@@ -11,3 +11,23 @@ export const getSessions = async () => {
         return error;
     }
 };
+
+export const getTodaySessions = async (classeId) => {
+    try{
+        const res = await axios.get(`http://192.168.0.50:4500/sessions/today/${classeId}`);
+        return res.data;
+    }
+    catch(error) {
+        return error.response;
+    }
+}
+
+export const getCurrentSession = async (classeId) => {
+    try{
+        const res = await axios.get(`http://192.168.0.50:4500/sessions/current/${classeId}`);
+        return res.data;
+    }
+    catch(error) {
+        return error.response;
+    }
+}
