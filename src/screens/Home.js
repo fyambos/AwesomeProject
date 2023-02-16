@@ -3,10 +3,12 @@ import {View, Text, TouchableOpacity} from 'react-native';
 
 import {getSessions} from '../services/sessions';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
     const navLogin = () => {
         navigation.navigate('Login');
     }
+    const { studentId } = route.params;
+    console.log("Student: ",studentId);
     const [sessions,setSession]=useState([]);
 
     useEffect(()=>{

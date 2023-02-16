@@ -5,17 +5,29 @@ import {login} from '../services/students'
 const Login = ({navigation}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const onPressHandler = async (event) => {
-        const res = await login({
-            email,
-            password
-        });
-    const studentId = res._id
-    //console.log("Loggin successful")
-    //console.log("Logged in",res);
-    //console.log("Id Student",studentId);
-    navigation.navigate('Home');
-    }
+    const [studentId, setStudentId] = useState("");
+    const onPressHandler = async () => {
+        try {
+          const res = await login({
+                          email,
+                          password
+
+                      });
+          if (res.status < 200 || res.status >= 300) {
+            console.log("Error: Code ",res.status, " - ",res.data.msg);
+          }
+          else {
+            console.log("Authentification réussie.")
+            setStudentId(res._id);
+            navigation.navigate('Home', { studentId: studentId });
+          }
+
+
+        } catch (error) {
+          console.log('Login error:', error);
+        }
+      };
+
     return (
         <View>
             <Text>Connexion</Text>
