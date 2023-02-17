@@ -1,23 +1,24 @@
 import axios from 'axios';
+import ipAddress from '../config';
 
 export const login = async (data) => {
     try{
-        const res = await axios.post('http://192.168.0.50:4500/students/login',
+        const res = await axios.post(`http://${ipAddress}/students/login`,
             data
         );
         return res.data;
     }
     catch(error) {
-        //console.log("service students.js error:",error.response.data.msg);
+        //console.log("service students.js error:",error.response);
         return error.response;
     }
 }
 export const register = async (data) => {
     try{
-        const res = await axios.post('http://192.168.0.50:4500/students/register',
+        const res = await axios.post(`http://${ipAddress}/students/register`,
             data
         );
-        console.log("registration successful:",res);
+        //console.log("registration successful:",res); //dangerous log
         return res.data;
     }
     catch(error) {
@@ -28,7 +29,7 @@ export const register = async (data) => {
 
 export const getStudent = async (studentId) => {
     try{
-        const res = await axios.get(`http://192.168.0.50:4500/students/${studentId}`);
+        const res = await axios.get(`http://${ipAddress}/students/${studentId}`);
         return res.data;
     }
     catch(error) {

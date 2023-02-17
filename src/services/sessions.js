@@ -1,8 +1,9 @@
 import axios from 'axios';
+import ipAddress from '../config';
 
 export const getSessions = async () => {
     try{
-        const res = await axios.get('http://192.168.0.50:4500/sessions');
+        const res = await axios.get(`http://${ipAddress}/sessions`);
         //console.log("session.js getSession() status:",res.status);
         return res.data;
     }
@@ -14,7 +15,7 @@ export const getSessions = async () => {
 
 export const getTodaySessions = async (classeId) => {
     try{
-        const res = await axios.get(`http://192.168.0.50:4500/sessions/today/${classeId}`);
+        const res = await axios.get(`http://${ipAddress}/sessions/today/${classeId}`);
         return res.data;
     }
     catch(error) {
@@ -24,7 +25,7 @@ export const getTodaySessions = async (classeId) => {
 
 export const getCurrentSession = async (classeId) => {
     try{
-        const res = await axios.get(`http://192.168.0.50:4500/sessions/current/${classeId}`);
+        const res = await axios.get(`http://${ipAddress}/sessions/current/${classeId}`);
         return res.data;
     }
     catch(error) {
