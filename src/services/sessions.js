@@ -26,9 +26,12 @@ export const getTodaySessions = async (classeId) => {
 export const getCurrentSession = async (classeId) => {
     try{
         const res = await axios.get(`http://${ipAddress}/sessions/current/${classeId}`);
+        console.log(`http://${ipAddress}/sessions/current/${classeId}`);
         return res.data;
     }
     catch(error) {
         return error.response;
+        console.log(`http://${ipAddress}/sessions/current/${classeId}`);
+
     }
 }
