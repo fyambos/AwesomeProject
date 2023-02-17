@@ -25,6 +25,7 @@ const Login = ({navigation}) => {
 
         } catch (error) {
           console.log('Login error:', error);
+          console.log('Is Docker running?');
         }
       };
 
@@ -40,7 +41,6 @@ const Login = ({navigation}) => {
                 value={email}
             />
             <TextInput
-                secureTextEntry={true}
                 style={{backgroundColor: 'lightgrey', padding:0,margin:5}}
                 type='password'
                 name='password'
