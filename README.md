@@ -73,6 +73,7 @@ Choisir la [navigation](https://reactnavigation.org/docs/hello-react-navigation)
 
 ### Start the metro bundler and run the app
 Navigate to the cloned repository folder and do in two separate terminals:
+
 First terminal:
 ```
 npx react-native start
@@ -85,5 +86,7 @@ npx react-native run-android
 The app will open (make sure a device is created in Android studio's device manager, [create a device](https://developer.android.com/studio/run/managing-avds?hl=fr) if not, or use [your own android device](https://reactnative.dev/docs/running-on-device))
 
 Test the app with:
+```
 Mail: test@test.com
 Pass: test
+```
