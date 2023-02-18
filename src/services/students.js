@@ -9,7 +9,8 @@ export const login = async (data) => {
         return res.data;
     }
     catch(error) {
-        //console.log("service students.js error:",error.response);
+        console.log("error",error)
+        console.log("service students.js error:",error.response);
         return error.response;
     }
 }
