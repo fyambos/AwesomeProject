@@ -2,47 +2,44 @@ import React, {useEffect,useState} from 'react';
 import {View, Text, TextInput,TouchableOpacity, StyleSheet} from 'react-native';
 import {login} from '../services/students'
 import styles from '../style/global';
+
 const Login = ({navigation}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [message, setMessage] = useState("");
 
     const onPressRegister = () => {
-      navigation.navigate('Register');
+        navigation.navigate('Register');
     }
     const onPressHandler = async () => {
-      if (!email || email=="" || !password || password=="") {
-        setMessage("Vous devez remplir tous les champs!");
-      }
-      else {
-        setMessage("Connexion en cours...");
-        const res = await login({
-                          email,
-                          password
-                      });
-          if(res instanceof Error) {
-            if (res.message.includes("Network")){
-                setMessage("Erreur de réseau, réessayez plus tard.");
-                console.log(res);
-                console.log("Docker est démarré? L'addresse de l'API est configurable dans /config.js.")
+		try {
+            setMessage("Connexion en cours...");
+            //Connexion
+            const res = await login({
+                email,
+                password
+            });
+            if(res instanceof Error) {
+                if (res.message.includes("Network")){
+                    setMessage("Erreur de réseau, réessayez plus tard.");
+                    console.log(res);
+                    console.log("Docker est démarré? L'addresse de l'API est configurable dans /config.js.")
+				} else if (res?.response?.data?.msg ?? null) {
+					setMessage(res.response.data.msg);
+                } else {
+                    setMessage("Une erreur est survenue, réessayez plus tard.");
+					console.log(res);
+                }
             } else {
-                setMessage("Une erreur est survenue, réessayez plus tard.")
-                console.log(res);
+				setMessage("Authentification réussie.");
+                navigation.navigate('Home', { studentId: res._id });
             }
-          } else {
-            if (res.status < 200 || res.status >= 300) {
-              console.log("Error: Code ",res.status, " - ",res.data.msg);
-              navigation.navigate('Login');
-            }
-            else {
-              setMessage("Authentification réussie.");
-              navigation.navigate('Home', { studentId: res._id });
-            }
-          }
-      };
+		} catch(error) {
+			console.log(error);
+			setMessage("Une erreur est survenue, réessayez plus tard.");
+		}
     }
       
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Connectez-vous à vôtre compte</Text>

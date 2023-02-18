@@ -70,8 +70,9 @@ const Home = ({navigation, route}) => {
                     }
                 } catch (error) {
                     console.log('Error in Home.js', error);
+                    console.log("Try adding the student to a class in Profile.js")
                 }
-            }
+            };
             getClasseId();
             console.log(classeId);
             const fetchSessions = async () => {
@@ -85,7 +86,7 @@ const Home = ({navigation, route}) => {
                 } catch (error) {
                     console.log('Error in Home.js', error);
                 }
-            }
+            };
             fetchSessions();
             const fetchTodaySessions = async () => {
                 try {
@@ -99,7 +100,7 @@ const Home = ({navigation, route}) => {
                 } catch (error) {
                     console.log('Error in Home.js', error);
                 }
-            }
+            };
             fetchTodaySessions();
             const fetchCurrentSession = async () => {
                 try {
@@ -115,10 +116,10 @@ const Home = ({navigation, route}) => {
                     console.log('Error in Home.js', error);
                 }
                 
-            }
+            };
             fetchCurrentSession();
 
-        },[]);
+        },[classeId]);
         console.log("Student: ",studentName,studentId);
         console.log("Classe: ",classeLabel,classeId);
         console.log("Current Session:",currentSession);
@@ -129,7 +130,7 @@ const Home = ({navigation, route}) => {
         //make card style for the 'En cours' view
         return <View style={styles.container}>
             {studentName && (
-                <Text style={styles.title}>Bonjour, {studentName}!</Text>
+                <Text style={styles.title}>Bonjour {studentName}!</Text>
             )}
             {currentSession.matiere ? (
                 <View style={styles.container}>
