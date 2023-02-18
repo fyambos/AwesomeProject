@@ -9,9 +9,7 @@ export const login = async (data) => {
         return res.data;
     }
     catch(error) {
-        console.log("error",error)
-        console.log("service students.js error:",error.response);
-        return error.response;
+        return error;
     }
 }
 export const register = async (data) => {
@@ -35,5 +33,16 @@ export const getStudent = async (studentId) => {
     }
     catch(error) {
         return error.response;
+    }
+}
+export const logout = async (data) => {
+    try{
+        const res = await axios.post(`http://${ipAddress}/students/logout`,
+            data
+        );
+        return res.data;
+    }
+    catch(error) {
+        return error;
     }
 }

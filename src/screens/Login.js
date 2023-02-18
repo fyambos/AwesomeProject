@@ -5,7 +5,6 @@ import {login} from '../services/students'
 const Login = ({navigation}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const [studentId, setStudentId] = useState("");
     const [message, setMessage] = useState("");
 
     const styles = StyleSheet.create({
@@ -56,25 +55,31 @@ const Login = ({navigation}) => {
     }
     const onPressHandler = async () => {
       if (!email || email=="" || !password || password=="") {
-        console.log("Vous devez remplir tous les champs!");
+        setMessage("Vous devez remplir tous les champs!");
       }
       else {
+        setMessage("Connexion en cours...");
         const res = await login({
                           email,
                           password
                       });
-          if(typeof res === 'undefined') {
-            console.log(res);
-            console.log(typeof(res));
+          if(res instanceof Error) {
+            if (res.message.includes("Network")){
+                setMessage("Erreur de réseau, réessayez plus tard.");
+                console.log(res);
+                console.log("Docker est démarré? L'addresse de l'API est configurable dans /config.js.")
+            } else {
+                setMessage("Une erreur est survenue, réessayez plus tard.")
+                console.log(res);
+            }
           } else {
             if (res.status < 200 || res.status >= 300) {
               console.log("Error: Code ",res.status, " - ",res.data.msg);
               navigation.navigate('Login');
             }
             else {
-              console.log("Authentification réussie.")
-              setStudentId(res._id);
-              navigation.navigate('Home', { studentId: studentId });
+              setMessage("Authentification réussie.");
+              navigation.navigate('Home', { studentId: res._id });
             }
           }
       };
@@ -107,6 +112,7 @@ const Login = ({navigation}) => {
             <TouchableOpacity onPress={onPressRegister}>
                 <Text style={styles.registerLink}>Pas de compte? S'inscrire</Text>
             </TouchableOpacity>
+            {message !== "" && <Text>{message}</Text>}
         </View>
     );
 }
