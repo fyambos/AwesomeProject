@@ -1,54 +1,11 @@
 import React, {useEffect,useState} from 'react';
 import {View, Text, TextInput,TouchableOpacity, StyleSheet} from 'react-native';
 import {login} from '../services/students'
-
+import styles from '../style/global';
 const Login = ({navigation}) => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [message, setMessage] = useState("");
-
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginVertical: 20,
-      },
-      input: {
-        backgroundColor: '#E1E8ED',
-        borderRadius: 9999,
-        color: '#14171A',
-        fontSize: 16,
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        width: '80%',
-        marginBottom: 20,
-      },
-      button: {
-        backgroundColor: '#1da1f2',
-        padding: 10,
-        borderRadius: 50,
-        width: '80%',
-        alignItems: 'center',
-        marginTop: 20,
-      },
-      buttonText: {
-        color: '#fff',
-        fontSize: 18,
-      },
-      registerLink: {
-        color: '#1da1f2',
-        marginTop: 20,
-        fontSize: 16,
-        textDecorationLine: 'underline',
-      },
-    });
-
 
     const onPressRegister = () => {
       navigation.navigate('Register');

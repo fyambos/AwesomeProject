@@ -1,12 +1,46 @@
 import React, {useEffect,useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import styles from '../style/global';
 
 import {getSessions,getTodaySessions,getCurrentSession} from '../services/sessions';
 import {getClass} from '../services/classes';
-import {getStudent} from '../services/students';
+import {getStudent,logout} from '../services/students';
 
 const Home = ({navigation, route}) => {
-    const navLogin = () => {
+    function formatSessionTime(sessionTime, hourOnly=false) {
+        const now = new Date();
+        const sessionDate = new Date(sessionTime);
+        
+        const isToday = now.toDateString() === sessionDate.toDateString();
+        const isTomorrow = now.getDate() + 1 === sessionDate.getDate() && now.getMonth() === sessionDate.getMonth() && now.getFullYear() === sessionDate.getFullYear();
+        const isThisYear = now.getFullYear() === sessionDate.getFullYear();
+        const isNextYear = now.getFullYear() + 1 === sessionDate.getFullYear();
+        
+        let dateString;
+        if (isToday || hourOnly) {
+            const options = {hour: 'numeric', minute: 'numeric', hour12: false };
+            dateString = sessionDate.toLocaleTimeString('fr-FR', options);
+            dateString = dateString.replace(/:00$/, 'h').replace(":", 'h');
+        } else if (isTomorrow) {
+            dateString = "Demain à "+dateString.replace(/:00$/, 'h').replace(":", 'h');
+        } else if (isThisYear) {
+            const options = { day: 'numeric', month: 'long', hour: 'numeric', minute: 'numeric', hour12: false };
+            dateString = sessionDate.toLocaleDateString('fr-FR', options);
+            dateString = dateString.replace(/:00$/, '');
+        } else if (isNextYear) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false };
+            dateString = sessionDate.toLocaleDateString('fr-FR', options);
+            dateString = dateString.replace(/:00$/, '');
+        } else {
+            const options = { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false };
+            dateString = sessionDate.toLocaleDateString('fr-FR', options);
+            dateString = dateString.replace(/:00$/, '');
+        }
+        
+        return dateString;
+    }
+    const navLogin = async () => {
+        const res = await logout();
         navigation.navigate('Login');
     }
     const { studentId } = route.params;
@@ -88,31 +122,58 @@ const Home = ({navigation, route}) => {
         console.log("Student: ",studentName,studentId);
         console.log("Classe: ",classeLabel,classeId);
         console.log("Current Session:",currentSession);
+        console.log("Today's Sessions:",todaySessions);
         
         //console.log("Sessions:",sessions);
 
-        return <View>
-            <Text>Bonjour, {studentName}!</Text>
+        //make card style for the 'En cours' view
+        return <View style={styles.container}>
+            {studentName && (
+                <Text style={styles.title}>Bonjour, {studentName}!</Text>
+            )}
             {currentSession.matiere ? (
-            <View>
-                <Text>En cours</Text>
-                <Text>{currentSession.matiere.label}</Text>
-                <Text>{currentSession.start} - {currentSession.end}</Text>
+                <View style={styles.container}>
+                    <Text style={styles.title2}>Marquer sa présence</Text>
+                    <Text>{currentSession.matiere.label}</Text>
+                    <Text>De {formatSessionTime(currentSession.start)} à {formatSessionTime(currentSession.end)}</Text>
+                    <TouchableOpacity style={styles.button} >
+                        <Text style={styles.buttonText} >Valider</Text>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={styles.container}>
+                    <Text style={styles.title2}>Pas de cours actuellement</Text>
+                </View>
+            )}
+            {todaySessions.results ? (
+            <View style={styles.container}>
+                <Text style={styles.title2}>Aujourd'hui</Text>
+                {todaySessions.results.map((session) => (
+                <Text key={session._id}>
+                    {session.matiere.label} - {formatSessionTime(session.start, hourOnly=true)}
+                </Text>
+                ))}
             </View>
             ) : (
-            <Text>Pas de cours actuellement</Text>
+                <View style={styles.container}>
+                    <Text>Pas de cours aujourd'hui</Text>
+                </View>
             )}
-            <Text>Cours aujourd'hui</Text>
+        {/*
             <View>
-            {/* 
             {sessions.map((session) => <Text key={session._id}>
-               {session.matiere}
-               </Text>
+            {session.matiere}
+            </Text>
             )}
-            */}
-            <TouchableOpacity onPress={navLogin}>
-                <Text>Login</Text>
-            </TouchableOpacity>
+            </View>
+        */}
+            <View style={[styles.container,styles.navbar]}>
+                <TouchableOpacity style={[styles.button, { marginRight: 10 }]} onPress={navLogin}>
+                    <Text style={styles.buttonText}>Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={navLogin}>
+                    <Text style={styles.buttonText}>Déconnexion</Text>
+                </TouchableOpacity>
             </View>
 
 
