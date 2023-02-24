@@ -1,12 +1,25 @@
 import React, {useEffect,useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import styles from '../style/global';
+import { useNavigation } from '@react-navigation/native'; // import useNavigation
+import styles from '../../style/global';
 
-import {getSessions,getTodaySessions,getCurrentSession} from '../services/sessions';
-import {getClass} from '../services/classes';
-import {getStudent,logout} from '../services/students';
+import {getSessions,getTodaySessions,getCurrentSession} from '../../services/sessions';
+import {getClass} from '../../services/classes';
+import {getStudent,logout} from '../../services/students';
 
-const Home = ({navigation, route}) => {
+const Home = ({route, navigation}) => {
+
+    const { studentId } = route.params //{ studentId: "63efe485ce3801ec42ac1d28" } //route.params;
+    const { reset } = useNavigation(); // get reset function from useNavigation
+    
+
+    const navLogin = async () => {
+        const res = await logout();
+        reset({ // use reset to go back to Login screen
+            index: 0,
+            routes: [{ name: 'Login' }]
+          });
+    }
     function formatSessionTime(sessionTime, hourOnly=false) {
         const now = new Date();
         const sessionDate = new Date(sessionTime);
@@ -39,13 +52,12 @@ const Home = ({navigation, route}) => {
         
         return dateString;
     }
-    const navLogin = async () => {
-        const res = await logout();
-        navigation.navigate('Login');
-    }
-    const { studentId } = route.params;
+    
     if (typeof studentId === 'undefined') {
-        navigation.navigate('Login');
+        reset({ // use reset to go back to Login screen
+            index: 0,
+            routes: [{ name: 'Login' }]
+          });
     }
     else {
         const [sessions,setSessions]=useState([]);

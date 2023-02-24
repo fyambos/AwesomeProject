@@ -32,7 +32,8 @@ const Login = ({navigation}) => {
                 }
             } else {
 				setMessage("Authentification réussie.");
-                navigation.navigate('Home', { studentId: res._id });
+                //navigation.navigate('Home', { studentId: res._id });
+                navigation.navigate('AppScreen', { studentId: res._id });
             }
 		} catch(error) {
 			console.log(error);

@@ -1,16 +1,14 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import ProfileScreen from './Profil'
-import ChuckScreen from './Chuck'
-
+import HomeScreen from './Home'
 const Stack = createNativeStackNavigator();
 
-const NavigationScreen = () => {
+const NavigationScreen = ({ route }) => {
+    const { studentId } = route.params;
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Profil" component={ProfileScreen}></Stack.Screen>
-            <Stack.Screen name="Chuck" component={ChuckScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} initialParams={{ studentId }} />
         </Stack.Navigator>
     );
 };

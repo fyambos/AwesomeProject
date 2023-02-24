@@ -37,12 +37,21 @@ export const getStudent = async (studentId) => {
 }
 export const logout = async (data) => {
     try{
-        const res = await axios.post(`http://${ipAddress}/students/logout`,
+        const res = await axios.get(`http://${ipAddress}/students/logout`,
             data
         );
         return res.data;
     }
     catch(error) {
         return error;
+    }
+}
+
+export const getMeApi = async () => {
+    try {
+        const res = await axios.get(`http://${ipAddress}/students/me`);
+        return res.data;
+    } catch (error) {
+        return error.response;
     }
 }
